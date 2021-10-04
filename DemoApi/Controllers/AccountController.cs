@@ -2,6 +2,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,10 +18,13 @@ namespace DemoApi.Controllers
     public class AccountController: ControllerBase
     {
         private readonly UserManager<IdentityUser> userManager;
+        private readonly JwtOptions jwtOptions;
 
-        public AccountController(UserManager<IdentityUser> userManager)
+        public AccountController(UserManager<IdentityUser> userManager,
+            IOptions<JwtOptions> options)
         {
             this.userManager = userManager;
+            this.jwtOptions = options.Value;
         }
 
         [HttpPost("[action]")]
@@ -62,6 +71,52 @@ namespace DemoApi.Controllers
             {
                 return BadRequest();
             }
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> LoginAsync(LoginBindingModel login)
+        {
+            IActionResult actionResult;
+
+            var user = await userManager.FindByEmailAsync(login.Email);
+
+            if (user == null)
+            {
+                actionResult = NotFound(new { errors = new[] { $"User with email '{login.Email}' is not found" } });
+            }
+            else if (await userManager.CheckPasswordAsync(user, login.Password))
+            {
+                if (!user.EmailConfirmed)
+                {
+                    actionResult = BadRequest(new { errors = new[] { "Email is not confirmed. Please, go to your email account" } });
+                }
+                else
+                {
+                    var token = GenerateTokenAsync(user);
+                    actionResult = Ok(new { jwt = token });
+                }
+            }
+            else
+            {
+                actionResult = BadRequest(new { errors = new[] { "User password is not valid" } });
+            }
+
+            return actionResult;
+        }
+
+        private string GenerateTokenAsync(IdentityUser user)
+        {
+            IList<Claim> userClaims = new List<Claim>
+            {
+                new Claim("UserName", user.UserName),
+                new Claim("Email", user.Email)
+            };
+
+            return new JwtSecurityTokenHandler().WriteToken(new JwtSecurityToken(
+              claims: userClaims,
+              expires: DateTime.UtcNow.AddMonths(1),
+              signingCredentials: new SigningCredentials(jwtOptions.SecurityKey, SecurityAlgorithms.HmacSha256)
+            ));
         }
     }
 }
