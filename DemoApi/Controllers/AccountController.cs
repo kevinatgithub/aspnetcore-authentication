@@ -43,5 +43,25 @@ namespace DemoApi.Controllers
                 return BadRequest(ModelState);
             }
         }
+
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Confirm(ConfirmBindingModel confirm)
+        {
+            var user = await userManager.FindByEmailAsync(confirm.Email);
+            var code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(confirm.Code));
+
+            if (user == null || user.EmailConfirmed)
+            {
+                return BadRequest();
+            }
+            else if ((await userManager.ConfirmEmailAsync(user, code)).Succeeded)
+            {
+                return Ok("Your email is confirmed");
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
     }
 }
