@@ -1,0 +1,122 @@
+{
+	"info": {
+		"_postman_id": "ac148a59-b7d1-4f78-b18a-bca1e1bbcde1",
+		"name": "AspNetCoreMasters Authentication",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"test2@test.com\",\r\n    \"password\": \"Password1!\",\r\n    \"confirmPassword\": \"Password1!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/Account/register",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"Account",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm Email",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"test2@test.com\",\r\n    \"code\": \"Q2ZESjhCSFQ1ZkhwWm1oRnV6M3h3WU93WmxoRDZZYzhwUkhZalFXS3RBeVl0Mi9QVnRaUi9QRmR5TUpVdmhWQ1BYNHpteUpWNWNKZHJReExiaEZJSk0vUFh0SENkTXpIUkI0ZGhNMUt2WENJbUc3bXpXTkR1MFhLeCt2MGRXRXlSa2xRS3NMajFYekRyazZVKzdCcTJOVktsemZ4dHhOSloyZVdwZEVFVzB1SVV5cWh3WUtQQmo4SkhEOTBlTENvcTlWaXBXUWJuYmVXZGhGbVpXRUtnWmRFaU9PcnNCOHFRUlVYYUM3Rnh4eWN0MUNaODNWSmhibVNwckIrajZJeXdFdTlvUT09\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/Account/confirm",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"Account",
+						"confirm"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"test2@test.com\",\r\n    \"password\": \"Password1!\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:5001/Account/login",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001",
+					"path": [
+						"Account",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Cities",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VyTmFtZSI6InRlc3QyQHRlc3QuY29tIiwiRW1haWwiOiJ0ZXN0MkB0ZXN0LmNvbSIsImV4cCI6MTYzNjAwNjEwMn0.nXd7NQrlQlI6etZaNIwcgLYzX5fbFEdXSXqU2foGwg0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:5001",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "5001"
+				}
+			},
+			"response": []
+		}
+	]
+}
