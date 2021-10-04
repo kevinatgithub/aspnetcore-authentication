@@ -5,3 +5,9 @@
 1. Add-Migration "added city table"
 
 2. Update-Database
+
+// this will add Identity migrations and create the tables
+
+3. Add-Migration "added identity tables"
+
+4. Update-Database
