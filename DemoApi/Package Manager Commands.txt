@@ -1,0 +1,7 @@
+﻿This are the commands that you need to run in Package Manager Console
+
+// make sure connection string is properly configured
+
+1. Add-Migration "added city table"
+
+2. Update-Database
