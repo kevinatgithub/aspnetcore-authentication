@@ -1,9 +1,11 @@
 ﻿using DemoApi.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 
 namespace DemoApi.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("")]
     public class CitiesController: ControllerBase
